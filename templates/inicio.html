@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início | S.EC</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="pagina-produtos">
+
+<div class="layout-sic">
+
+    <!-- MENU LATERAL -->
+    <aside class="menu-lateral">
+
+        <a href="{{ url_for('inicio') }}" class="marca-sic">
+            <span class="marca-icone">◆</span>
+            <span>
+                <strong>S.EC</strong>
+                <small>Sistema Eficiente de Cadastro</small>
+            </span>
+        </a>
+
+        
+<nav class="navegacao">
+
+    <a href="{{ url_for('inicio') }}" class="ativo">
+        ⌂ <span>Início</span>
+    </a>
+
+    <a href="#" class="opcao-futura">
+        ↻ <span>Histórico de vendas</span>
+    </a>
+
+    <a href="#" class="opcao-futura">
+        ♧ <span>Fornecedores</span>
+    </a>
+
+    <a href="#" class="opcao-futura">
+        ▥ <span>Relatórios</span>
+    </a>
+
+    <a href="#" class="opcao-futura">
+        ⚙ <span>Configurações</span>
+    </a>
+
+</nav>
+
+
+        </nav>
+
+        <div class="rodape-menu">
+            <strong>S.EC</strong>
+            <small>Mais controle, mais eficiência.</small>
+            <small>Versão 1.0.0</small>
+        </div>
+
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="conteudo-sic">
+
+        <header class="cabecalho-sic">
+
+            <div>
+                <span class="sobretitulo">PAINEL PRINCIPAL</span>
+                <h1>Início</h1>
+                <p>Gerencie seus produtos e mantenha seu estoque organizado.</p>
+            </div>
+
+            <div class="acoes-cabecalho">
+                <a href="{{ url_for('logout') }}" class="botao-sair">
+                    Sair ↗
+                </a>
+            </div>
+
+        </header>
+
+        <!-- BOAS-VINDAS -->
+        <section class="cartao-sic boas-vindas-sic">
+            <div>
+                <span class="sobretitulo">BEM-VINDO AO S.EC</span>
+
+                <h2>Seu estoque sob controle.</h2>
+
+                <p>
+                    Cadastre produtos, consulte quantidades e registre
+                    movimentações em um só lugar.
+                </p>
+
+                <a href="{{ url_for('produtos') }}" class="botao-azul">
+                    Acessar produtos →
+                </a>
+            </div>
+
+            <div class="simbolo-inicio">◆</div>
+        </section>
+
+        <!-- ATALHOS -->
+        <section class="atalhos-inicio">
+
+            <a href="{{ url_for('cadastro') }}"
+               class="cartao-sic atalho-inicio">
+
+                <span class="icone-atalho">＋</span>
+
+                <span class="texto-atalho">
+                    <strong>Cadastrar produto</strong>
+                    <small>Adicione novos itens ao estoque.</small>
+                </span>
+
+                <span class="seta-atalho">→</span>
+            </a>
+
+            <a href="{{ url_for('produtos') }}"
+               class="cartao-sic atalho-inicio">
+
+                <span class="icone-atalho">▤</span>
+
+                <span class="texto-atalho">
+                    <strong>Produtos e estoque</strong>
+                    <small>Consulte, pesquise e gerencie produtos.</small>
+                </span>
+
+                <span class="seta-atalho">→</span>
+            </a>
+
+            <a href="{{ url_for('cadastro_usuario') }}"
+               class="cartao-sic atalho-inicio">
+
+                <span class="icone-atalho">♙</span>
+
+                <span class="texto-atalho">
+                    <strong>Minha conta</strong>
+                    <small>Acesse o cadastro de usuário.</small>
+                </span>
+
+                <span class="seta-atalho">→</span>
+            </a>
+
+        </section>
+
+        <footer class="rodape-inicio">
+            <span>S.EC — Sistema Eficiente de Cadastro</span>
+            <span>Organização e eficiência para seu negócio.</span>
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>
+```

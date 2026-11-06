@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha conta | S.IC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="pagina-conta">
+
+    <main class="conta-container">
+
+        <header class="page-header">
+            <div>
+                <span class="etiqueta">PERFIL DO USUÁRIO</span>
+                <h1>Minha conta</h1>
+                <p>Confira seus dados cadastrados no S.IC.</p>
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="btn-sair">Sair ↗</a>
+        </header>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                {% for categoria, mensagem in mensagens %}
+                    <div class="alerta {{ categoria }}">{{ mensagem }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="conta-card">
+            <div class="avatar-usuario">♙</div>
+
+            <h2>{{ usuario["nome"] }}</h2>
+            <p class="conta-subtitulo">Dados da sua conta</p>
+
+            <div class="dados-usuario">
+                <div class="dado-item">
+                    <span class="dado-icone">♙</span>
+                    <div>
+                        <span class="dado-label">Nome completo</span>
+                        <p>{{ usuario["nome"] }}</p>
+                    </div>
+                </div>
+
+                <div class="dado-item">
+                    <span class="dado-icone">✉</span>
+                    <div>
+                        <span class="dado-label">E-mail cadastrado</span>
+                        <p>{{ usuario["email"] }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ url_for('inicio') }}" class="btn-principal btn-voltar">
+                ← Voltar ao início
+            </a>
+        </section>
+
+        <footer class="inicio-footer">
+            <p>S.IC — Sistema Eficiente de Cadastro</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>

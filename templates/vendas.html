@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas | S.EC</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="pagina-produtos">
+
+<div class="layout-sic">
+
+    <aside class="menu-lateral">
+        <a href="{{ url_for('inicio') }}" class="marca-sic">
+            <span class="marca-icone">◆</span>
+            <span>
+                <strong>S.EC</strong>
+                <small>Sistema Eficiente de Cadastro</small>
+            </span>
+        </a>
+
+        <nav class="navegacao">
+            <a href="{{ url_for('inicio') }}">⌂ <span>Início</span></a>
+            <a href="{{ url_for('produtos') }}">
+                ◈ <span>Produtos</span>
+            </a>
+            <a href="{{ url_for('vendas') }}" class="ativo">
+                🛒 <span>Vendas</span>
+            </a>
+            <a href="#" class="item-inativo">♙ <span>Usuários</span></a>
+        </nav>
+
+        <div class="rodape-menu">
+            <strong>S.IC</strong>
+            <small>Mais controle, mais eficiência.</small>
+            <small>Versão 1.0.0</small>
+        </div>
+    </aside>
+
+    <main class="conteudo-sic">
+
+        <header class="cabecalho-sic">
+            <div>
+                <span class="sobretitulo">COMERCIAL</span>
+                <h1>Ponto de venda</h1>
+                <p>Selecione os produtos, confira os valores e finalize as vendas.</p>
+            </div>
+
+            <div class="acoes-cabecalho">
+                <a href="{{ url_for('cadastro') }}" class="botao-azul">
+                    + Novo produto
+                </a>
+                <a href="{{ url_for('logout') }}" class="botao-sair">
+                    Sair ↗
+                </a>
+            </div>
+        </header>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                {% for categoria, mensagem in mensagens %}
+                    <div class="alerta {{ categoria }}">{{ mensagem }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="painel-buscas">
+
+            <article class="cartao-sic">
+                <div class="titulo-cartao">
+                    <span class="icone-cartao">▥</span>
+                    <div>
+                        <h2>Buscar por código</h2>
+                        <p>Localize rapidamente um produto específico.</p>
+                    </div>
+                </div>
+
+                <form id="form-busca-codigo" class="linha-busca">
+                    <input
+                        id="codigo-produto"
+                        type="number"
+                        min="1"
+                        placeholder="Ex.: 1, 10, 25..."
+                        required
+                    >
+                    <button type="submit" class="botao-azul">
+                        ⌕ Pesquisar
+                    </button>
+                </form>
+
+                <small class="ajuda-busca">
+                    Informe o ID do produto para adicioná-lo à lista.
+                </small>
+            </article>
+
+            <article class="cartao-sic">
+                <div class="titulo-cartao">
+                    <span class="icone-cartao">⌕</span>
+                    <div>
+                        <h2>Buscar por nome</h2>
+                        <p>Filtre a lista para encontrar seus produtos.</p>
+                    </div>
+                </div>
+
+                <form action="{{ url_for('produtos') }}"
+                      method="GET"
+                      class="linha-busca">
+                    <input
+                        type="text"
+                        name="busca"
+                        placeholder="Ex.: teclado, mouse, monitor..."
+                        value="{{ busca }}"
+                    >
+
+                    <button type="submit" class="botao-azul">
+                        Filtrar
+                    </button>
+                </form>
+
+                {% if busca %}
+                    <a href="{{ url_for('produtos') }}"
+                       class="link-limpar">Limpar filtro</a>
+                {% endif %}
+            </article>
+
+        </section>
+
+        <section class="cartao-sic painel-lista">
+
+            <div class="titulo-lista">
+                <div>
+                    <h2>Lista de produtos</h2>
+                    <p>Selecione os produtos que deseja movimentar.</p>
+                </div>
+
+                <span class="contador-produtos">
+                    {{ produtos|length }} resultado(s)
+                </span>
+            </div>
+
+            <div class="tabela-wrapper">
+                <table class="tabela-sic">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Estoque</th>
+                            <th>Preço</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for produto in produtos %}
+                        <tr>
+                            <td>{{ produto["id"] }}</td>
+                            <td><strong>{{ produto["nome"] }}</strong></td>
+
+                            <td>
+                                <span class="quantidade-badge">
+                                    {{ produto["quantidade"] }} un.
+                                </span>
+                            </td>
+
+                            <td>
+                                R$ {{ "%.2f"|format(produto["preco"]|float) }}
+                            </td>
+
+                            <td>
+                                <div class="acoes-tabela">
+                                    <button
+                                        type="button"
+                                        class="botao-selecionar"
+                                        data-id="{{ produto['id'] }}"
+                                        data-nome="{{ produto['nome'] }}"
+                                        data-quantidade="{{ produto['quantidade'] }}"
+                                        data-preco="{{ produto['preco'] }}"
+                                    >
+                                        + Selecionar
+                                    </button>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="tabela-vazia">
+                                Nenhum produto encontrado.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <section class="cartao-sic painel-selecionados"
+                 id="painel-selecionados">
+
+            <div class="titulo-lista">
+                <div>
+                    <h2>☷ Itens selecionados</h2>
+                    <p>
+                        Confira os produtos e as quantidades antes
+                        de confirmar a baixa no estoque.
+                    </p>
+                </div>
+
+                <span id="contador-selecionados"
+                      class="contador-produtos">0 itens</span>
+            </div>
+
+            <div id="lista-selecionados" class="lista-selecionados">
+                <div class="carrinho-vazio">
+                    <span class="icone-vazio">🛒</span>
+                    <strong>Nenhum produto selecionado</strong>
+                    <p>
+                        Pesquise por código ou nome e selecione
+                        os produtos desejados.
+                    </p>
+                </div>
+            </div>
+
+            <div class="resumo-baixa">
+
+                <div>
+                    <span>Total de unidades</span>
+                    <strong id="total-unidades">0</strong>
+                </div>
+
+                <div>
+                    <span>Valor estimado</span>
+                    <strong id="valor-total">R$ 0,00</strong>
+                </div>
+
+                <div class="campo-pagamento">
+                    <label>Forma de pagamento</label>
+
+                    <div class="opcoes-pagamento">
+
+                        <label class="opcao-pagamento">
+                            <input type="radio" name="metodo-pagamento" value="dinheiro">
+                            <span>💵 Dinheiro</span>
+                        </label>
+
+                        <label class="opcao-pagamento">
+                            <input type="radio" name="metodo-pagamento" value="debito">
+                            <span>💳 Débito</span>
+                        </label>
+
+                        <label class="opcao-pagamento">
+                            <input type="radio" name="metodo-pagamento" value="pix">
+                            <span>⚡ Pix</span>
+                        </label>
+
+                        <label class="opcao-pagamento">
+                            <input type="radio" name="metodo-pagamento" value="credito">
+                            <span>💳 Crédito</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <button id="btn-confirmar-baixa"
+                        type="button"
+                        class="botao-confirmar"
+                        disabled>
+                    Finalizar venda
+                </button>
+
+                <small>
+                    O estoque só será alterado após a confirmação.
+                </small>
+
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
